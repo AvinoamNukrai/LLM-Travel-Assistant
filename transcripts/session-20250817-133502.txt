@@ -1,0 +1,10 @@
+You: hi
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: im traveling to rome next week
+Assistant: • Colosseum: Explore ancient Rome's iconic amphitheater and history
+• Vatican City: Visit the Sistine Chapel, St. Peter's Basilica, and world-class art museums
+• Roman Forum: Walk through ancient ruins, temples, and basilicas amidst a bustling city center
+You: cool
+Assistant: It's great to hear you're excited about your Rome trip! What are your top priorities for activities and experiences during your stay?
+You: what will be the weather ?
+Assistant: Based on live data for Rome (2025-08-24→2025-08-30): highs ~32°C, lows ~22°C, rain ~12%. Pack light, breathable clothing.

@@ -1,0 +1,16 @@
+You: hi
+Assistant: It's lovely to meet you! I'm excited to help plan your next adventure.
+
+To get started, could you please share with me which city you're planning to visit? And approximately when are you thinking of traveling (month or specific dates)?
+You: where to visit in rome? top places
+Assistant: - Colosseum
+- Vatican Museums (indoor option)
+- Bioparco di Roma (kid-friendly zoo with outdoor exhibits)
+You: what's the weather there next week?
+Assistant: - Trevi Fountain (outdoor, but can be shaded)
+- Vatican Museums (indoor option)
+- Bioparco di Roma (kid-friendly zoo with outdoor exhibits)
+You: i mean the weather in ROME!
+Assistant: - Vatican Museums (indoor option)
+- Castel Sant'Angelo (outdoor with some shade)
+- Bioparco di Roma (kid-friendly zoo with outdoor exhibits)

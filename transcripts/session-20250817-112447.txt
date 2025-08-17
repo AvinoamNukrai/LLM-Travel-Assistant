@@ -1,0 +1,6 @@
+You: hi
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: im traveling next month to israel
+Assistant: That's exciting! What are your plans and interests for your time in Israel?
+You: 1 month, traveling
+Assistant: It's great to hear you're traveling soon! What are your top priorities for this month-long adventure in Israel?

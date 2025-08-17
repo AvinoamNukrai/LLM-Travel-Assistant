@@ -1,0 +1,10 @@
+You: i'm avinoam, traveling to rome next week
+Assistant: Welcome to Rome, Avinoam! I'm excited to help you make the most of your trip - what are your top priorities for this week in Rome?
+You: where to visit in rome? top places
+Assistant: - Colosseum (outdoor, but can be partially shaded)
+- Vatican Museums (indoor, perfect for rainy days)
+- Bioparco di Roma (kid-friendly zoo with outdoor and indoor areas)
+You: what's the weather there next week?
+Assistant: - Vatican Museums (indoor)
+- Galleria Borghese (indoor art museum with outdoor gardens)
+- Bioparco di Roma (kid-friendly zoo with indoor and outdoor areas)

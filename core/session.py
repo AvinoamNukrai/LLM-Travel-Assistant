@@ -11,23 +11,23 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Slots:
-    city = None
-    country = None
-    start_date = None  # ISO YYYY-MM-DD
-    end_date = None    # ISO YYYY-MM-DD
-    month = None
-    interests = None
-    budget_hint = None
-    kid_friendly = None
-    lat = None
-    lon = None
-    last_intent = None
+    city: str | None = None
+    country: str | None = None
+    start_date: str | None = None  # ISO YYYY-MM-DD
+    end_date: str | None = None    # ISO YYYY-MM-DD
+    month: str | None = None
+    interests: str | None = None
+    budget_hint: str | None = None
+    kid_friendly: bool | None = None
+    lat: float | None = None
+    lon: float | None = None
+    last_intent: str | None = None
 
 
 @dataclass
 class Session:
-    history = field(default_factory=list)  # list of {role, content}
-    slots = field(default_factory=Slots)
+    history: list[dict[str, str]] = field(default_factory=list)  # list of {role, content}
+    slots: Slots = field(default_factory=Slots)
 
     def add(self, role, content):
         """Append a message to the conversation history."""

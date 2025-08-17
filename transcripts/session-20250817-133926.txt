@@ -1,0 +1,31 @@
+You: hiiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: nice to meet u
+Assistant: Nice to meet you too! So, where are you planning a trip to?
+You: romeeeee
+Assistant: Romance is in the air! I'd love to help plan your special getaway - what city are you heading to and when?
+You: rome
+Assistant: Rome is a wonderful city! What's your main interest - history, art, food, or something else that draws you to Rome?
+You: top places?
+Assistant: - Colosseum
+- Vatican Museums (indoor, great for rainy days)
+- Roman Forum
+You: weather?
+Assistant: I don't have live weather details for Rome (your dates) yet. Please confirm city and dates.
+You: what to pack
+Assistant: **Must-haves:**
+• Comfortable walking shoes
+• Lightweight rain jacket (based on live data)
+• Power adapter for Italy
+• Travel documents and copies
+
+**Nice-to-haves:**
+• Umbrella
+• Sunglasses
+• Sun hat
+• Reusable water bottle
+
+**Activity-specific:**
+• For food enthusiasts:
+  • Camera for food photography
+  • Guidebook or app for restaurant recommendations

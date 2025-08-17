@@ -1,0 +1,10 @@
+You: hii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: traveling to rome next week
+Assistant: Rome is a wonderful destination! What are your plans and interests while you're there?
+You: and what is the weather there?
+Assistant: Based on live data for Rome (2025-08-24→2025-08-30): highs ~34°C, lows ~23°C, rain ~11%. Pack light, breathable clothing.
+You: emmm i want nyc
+Assistant: Based on live data for Rome (2025-08-24→2025-08-30): highs ~34°C, lows ~23°C, rain ~11%. Pack light, breathable clothing.
+You: what will be the weather in nyc
+Assistant: Based on live data for New York (2025-08-24→2025-08-30): highs ~26°C, lows ~21°C, rain ~21%. Pack layered clothing.
