@@ -32,3 +32,7 @@ Key prompt-engineering choices:
 - Post-processing enforcement: Normalizing attractions to three non-food items (unless food is requested) guarantees the exact output shape even if the model deviates.
 - Memory and stability: Structured slots, last_intent persistence on neutral turns, and bounded recent history preserve essential context without bloating prompts and reduce intent thrashing.
 - Stable generation: Low temperature and capped output make behavior predictable and reproducible across turns.
+
+
+
+See the simple_example.pdf file for the full example chat!
