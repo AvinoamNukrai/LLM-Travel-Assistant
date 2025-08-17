@@ -1,0 +1,4 @@
+You: hiiiiiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: nice to meet u
+Assistant: Nice to meet you too! Before we get started, could you tell me which city you're planning a trip to?

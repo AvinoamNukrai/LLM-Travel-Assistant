@@ -1,0 +1,24 @@
+You: hiiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: im going to rome next week
+Assistant: Here are three local attractions in Rome:
+
+• Colosseum: Explore ancient history and engineering
+• Vatican City: Discover art, architecture, and spirituality
+• Pantheon: Marvel at ancient Roman architecture and design
+You: niceeeee
+Assistant: Glad you're excited about Rome! What's your plan for exploring the city - are you interested in history, art, food, or a mix of everything?
+You: who r u
+Assistant: I'm Navan, your travel planner. 
+
+Based on Rome as your destination, here are three alternative destinations to consider:
+
+• Florence: Rich in Renaissance art and architecture
+• Venice: Unique canals and romantic atmosphere
+• Amalfi Coast: Picturesque towns perched on cliffs
+You: quite
+Assistant: Here are three alternative destinations to Rome:
+
+• Florence: Rich in Renaissance art and architecture
+• Venice: Unique canals and romantic atmosphere
+• Amalfi Coast: Picturesque towns perched on cliffs
