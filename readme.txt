@@ -16,7 +16,7 @@ run this command for the frontend from the 'web' folder (second terminal):
 
 
 
-Key prompt-engineering choices (with rationale)
+Key prompt-engineering choices:
 
 - System guardrails and privacy: Per-intent rules, a one-time intro, and “don’t echo private lines” keep replies tightly scoped, prevent leakage, and avoid question spam or drift.
 - Private context injection: Compact Context: and Tool facts: are added only to the system message so the model uses memory/live data without exposing it, reducing re-asking and keeping responses focused.
