@@ -1,19 +1,19 @@
 """
 llm/client.py
 
-DeepSeek-only LLM client.
-- Provides a single entrypoint: call_llm(system_prompt, user_prompt, history=None)
-- Sends a chat completion request to DeepSeek's API
+Provider-agnostic LLM client.
+- Entry: call_llm(system_prompt, user_prompt, history=None)
+- Supports Ollama (default) or DeepSeek if explicitly configured
 - History is a list of {'role': 'user'|'assistant', 'content': str}
 
 Environment variables:
-- LLM_PROVIDER       (deepseek | ollama) default deepseek
-- DEEPSEEK_API_URL   (default: https://api.deepseek.com)
-- DEEPSEEK_API_KEY   (required for deepseek)
-- DEEPSEEK_MODEL     (default: deepseek-chat)
-- OLLAMA_BASE_URL    (default: http://localhost:11434)
-- OLLAMA_MODEL       (default: qwen2.5:3b)
-- DEEPSEEK_OFFLINE   (set to 1/true to stub responses without calling the API)
+- LLM_PROVIDER     (ollama | deepseek) default: ollama
+- LLM_OFFLINE      (1/true to stub responses without calling any API)
+- OLLAMA_BASE_URL  (default: http://localhost:11434)
+- OLLAMA_MODEL     (default: qwen2.5:3b)
+- DEEPSEEK_API_URL (default: https://api.deepseek.com)
+- DEEPSEEK_API_KEY (required for deepseek)
+- DEEPSEEK_MODEL   (default: deepseek-chat)
 """
 
 import os
@@ -33,8 +33,12 @@ def call_llm(system_prompt, user_prompt, history=None):
     Returns:
         Model response text (str), trimmed.
     """
-    provider = os.getenv("LLM_PROVIDER", "deepseek").strip().lower()
-    offline = os.getenv("DEEPSEEK_OFFLINE", "").strip().lower() in {"1", "true", "yes"}
+    provider = os.getenv("LLM_PROVIDER", "ollama").strip().lower()
+    # Prefer generic flag; keep compatibility with old name
+    offline = (
+        os.getenv("LLM_OFFLINE", "").strip().lower() in {"1", "true", "yes"}
+        or os.getenv("DEEPSEEK_OFFLINE", "").strip().lower() in {"1", "true", "yes"}
+    )
 
     messages = []
     if system_prompt:
@@ -74,7 +78,7 @@ def call_llm(system_prompt, user_prompt, history=None):
         except Exception:
             return "Unable to reach Ollama at OLLAMA_BASE_URL. Ensure the daemon is running (ollama serve)."
 
-    # Default: DeepSeek
+    # DeepSeek path (optional, only if explicitly selected)
     base = os.getenv("DEEPSEEK_API_URL", "https://api.deepseek.com")
     key = os.getenv("DEEPSEEK_API_KEY", "")
     model = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")

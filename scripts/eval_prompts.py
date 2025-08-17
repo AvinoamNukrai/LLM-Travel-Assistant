@@ -31,9 +31,10 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from app.cli import _maybe_weather  # type: ignore
-from core.session import Session
-from core.router import detect_intent, update_slots_from_text
-from core.prompts import (
+from app.cli import _build_weather_reply  # type: ignore
+from assistant.session import Session
+from assistant.router import detect_intent, update_slots_from_text
+from assistant.prompts import (
     SYSTEM_PROMPT,
     destination_prompt,
     packing_prompt,
@@ -45,7 +46,7 @@ from core.prompts import (
     tool_facts_line,
 )
 from llm.client import call_llm
-from core.postprocess import limit_attractions_to_three
+from assistant.postprocess import limit_attractions_to_three
 
 
 HISTORY_TURNS = int(os.getenv("HISTORY_TURNS", "6"))
@@ -76,6 +77,39 @@ def step(session: Session, user_text: str) -> str:
         intent = session.slots.last_intent
     session.slots.last_intent = intent
 
+    if intent == "weather":
+        _maybe_weather(session)
+        reply = _build_weather_reply(session)
+        session.add("assistant", reply)
+        return reply
+
+    # Offline deterministic stubs to avoid leaking private context lines into replies
+    offline = (
+        os.getenv("LLM_OFFLINE", "").strip().lower() in {"1", "true", "yes"}
+        or os.getenv("DEEPSEEK_OFFLINE", "").strip().lower() in {"1", "true", "yes"}
+    )
+    if offline:
+        if intent == "attractions":
+            reply = "- Idea 1\n- Idea 2\n- Idea 3"
+        elif intent == "packing":
+            reply = "Must-have: essentials; Nice-to-have: extras; Activity-specific: adjust for weather."
+        elif intent == "support":
+            s = session.slots
+            if s.city and s.start_date and s.end_date:
+                reply = "Got it. Want tips for attractions or packing?"
+            else:
+                reply = "What city and dates are you planning?"
+        elif intent == "meta":
+            s = session.slots
+            city = s.city or "unknown"
+            when = f"{s.start_date}→{s.end_date}" if (s.start_date and s.end_date) else (s.month or "unknown")
+            last = s.last_intent or "unknown"
+            reply = f"city={city} {when} last_intent={last}"
+        else:  # destination or other
+            reply = "- Option A\n- Option B\n- Option C"
+        session.add("assistant", reply)
+        return reply
+
     if intent == "packing":
         _maybe_weather(session)
         prompt = packing_prompt(session, user_text)
@@ -84,9 +118,6 @@ def step(session: Session, user_text: str) -> str:
         prompt = attractions_prompt(session, user_text)
     elif intent == "meta":
         prompt = meta_prompt(session, user_text)
-    elif intent == "weather":
-        _maybe_weather(session)
-        prompt = weather_prompt(session, user_text)
     elif intent == "support":
         prompt = support_prompt(session, user_text)
     else:

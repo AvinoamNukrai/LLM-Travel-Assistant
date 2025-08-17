@@ -1,8 +1,0 @@
-You: where to visit in rome? top places
-Assistant: - Colosseum
-- Vatican Museums (indoor option)
-- Bioparco di Roma (kid-friendly zoo)
-You: what's the weather there next week?
-Assistant: - Vatican Museums (indoor option)
-- Castel Sant'Angelo
-- Bioparco di Roma (kid-friendly zoo)

@@ -1,6 +1,0 @@
-You: hiii who r u
-Assistant: Hi there! I'm Navan, your travel buddy - nice to meet you too! What brings you on a trip soon?
-You: done with bsc
-Assistant: - Donetsk National Museum of Local History (indoor, great for rainy days)
-- Donetsk Sports Palace (outdoor events, might be affected by weather)
-- Donetsk Zoo (kid-friendly, outdoor but has indoor areas too)

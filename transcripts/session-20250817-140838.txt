@@ -1,0 +1,14 @@
+You: hiiiiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: want to go to israel next week
+Assistant: Here are three destination options for Israel:
+
+• Jerusalem: Explore ancient history and spiritual significance
+• Tel Aviv: Enjoy vibrant city life, beaches, and nightlife
+• Haifa: Discover stunning natural beauty, Baha'i Gardens, and cultural attractions
+You: weather?
+Assistant: Based on live data for Israel (2025-08-24→2025-08-30): highs ~33°C, lows ~23°C, rain ~0%. Pack light, breathable clothing.
+You: hotttt
+Assistant: Based on live data for Israel (2025-08-24→2025-08-30): highs ~33°C, lows ~23°C, rain ~0%. Pack light, breathable clothing.
+You: ok ok tnx!!!!
+Assistant: You're welcome! Feel free to share more about your trip plans anytime for personalized assistance.

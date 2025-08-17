@@ -2,11 +2,15 @@
 app/cli.py
 
 Command-line chat interface and orchestration loop.
-- Reads user input
-- Updates session memory (slots) and conversation history
-- Detects intent and prepares per-intent prompts
-- Optionally fetches weather and blends a concise "Tool facts" line
-- Calls the LLM and prints the assistant's reply
+
+Flow per user turn:
+1) Append user message to history and update slots from free text (city/dates/month, preferences)
+2) Detect intent; treat weather hints with priority; route smalltalk to support
+3) For intents that benefit from live data (weather/packing/attractions), prefetch weather if city+dates known and
+   store a compact private line (tool facts) in-session
+4) Build per-intent prompt and system message (including private lines) and call the model
+   - For weather intent, bypass the model and deterministically answer from tool facts
+5) Post-process (e.g., enforce exactly three attractions) and print the reply; persist transcript
 
 Environment:
 - HISTORY_TURNS: how many past turns to include (default 6)
@@ -15,21 +19,23 @@ Environment:
 import os
 from datetime import datetime, timezone
 
-from core.session import Session
-from core.router import detect_intent, update_slots_from_text, is_smalltalk, has_weather_hint
-from core.prompts import SYSTEM_PROMPT, destination_prompt, packing_prompt, attractions_prompt, weather_prompt, meta_prompt, support_prompt
-from core.postprocess import limit_attractions_to_three
+from assistant.session import Session
+from assistant.router import detect_intent, update_slots_from_text, is_smalltalk, has_weather_hint
+from assistant.prompts import SYSTEM_PROMPT, destination_prompt, packing_prompt, attractions_prompt, weather_prompt, meta_prompt, support_prompt
+from assistant.postprocess import limit_attractions_to_three
 from llm.client import call_llm
-from tools.weather import geocode_city, fetch_weather, summarize_weather
+from assistant.tools.weather import geocode_city, fetch_weather, summarize_weather
 
 
 HISTORY_TURNS = int(os.getenv("HISTORY_TURNS", "6"))
 
 
 def _maybe_weather(session):
-    """
-    If we have a city and concrete dates, ensure coordinates and fetch weather.
-    Store a compressed summary line in the session for prompt blending.
+    """Prefetch weather and store a compact private summary when city+dates are known.
+
+    - Ensures coordinates via geocoding if missing
+    - Calls Open-Meteo and stores a 'Tool facts' summary on the session for private prompting
+    - Best-effort; swallows errors to avoid breaking the loop
     """
     try:
         s = session.slots
@@ -58,9 +64,7 @@ def _maybe_weather(session):
 
 
 def _limit_attractions_to_three(text: str) -> str:
-    """If the response contains more than 3 bullet-like lines, keep only the first three.
-    Bullet-like lines include '-', '*', '•' or numbered lists like '1.'/'1)'.
-    """
+    """Limit any reply to the first three bullet-like items or fallback to paragraphs/sentences."""
     lines = text.splitlines()
     bullet_idxs: list[int] = []
     for i, line in enumerate(lines):
@@ -106,13 +110,12 @@ def _limit_attractions_to_three(text: str) -> str:
 
 
 def _count_dash_bullets(text: str) -> int:
+    """Count lines that start with a dash bullet ('- ')."""
     return sum(1 for ln in text.splitlines() if ln.lstrip().startswith("- "))
 
 
 def _ensure_weather_reply(session: Session, reply: str) -> str:
-    """If the reply doesn't look like weather, synthesize a concise summary from tool facts.
-    Returns the original reply if it already looks like weather.
-    """
+    """Ensure weather replies stay weather-only; otherwise synthesize from tool facts."""
     low = reply.lower()
     looks_weather = ("°" in reply) or ("temp" in low) or ("rain" in low) or ("precip" in low) or ("forecast" in low) or ("weather" in low)
     # Check if it's clearly attractions (bullet points about places)
@@ -165,7 +168,7 @@ def _build_weather_reply(session: Session) -> str:
 
 
 def main():
-    """Run the interactive CLI loop."""
+    """Run the interactive CLI chat loop with context management and routing."""
     print("Travel Assistant (type 'exit' to quit)\n")
     sess = Session()
     introduced = False
@@ -210,7 +213,7 @@ def main():
         private_lines = []
         cf_line = core_context = None
         try:
-            from core.prompts import context_header, tool_facts_line
+            from assistant.prompts import context_header, tool_facts_line
             cf_line = context_header(sess)
             if cf_line:
                 private_lines.append(f"Private context: {cf_line}")

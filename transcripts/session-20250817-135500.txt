@@ -1,0 +1,4 @@
+You: hiiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: how r u
+Assistant: DeepSeek error (HTTP 401). Check DEEPSEEK_API_KEY or try LLM_PROVIDER=ollama.

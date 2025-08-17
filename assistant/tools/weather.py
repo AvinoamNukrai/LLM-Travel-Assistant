@@ -1,10 +1,12 @@
 """
-tools/weather.py
+assistant.tools.weather
 
 Weather and geocoding utilities using Open-Meteo (free, no key required).
-- geocode_city: get coordinates for a city name
-- fetch_weather: get daily forecast range for tmax/tmin and precip prob
-- summarize_weather: build a short 'Tool facts' line for prompts
+
+Functions:
+- geocode_city(name): resolve a human city name to coordinates and canonical name/country.
+- fetch_weather(lat, lon, start, end): fetch daily forecast series for max/min temperature and precip probability.
+- summarize_weather(city, start, end, w): produce a compact 'Tool facts' line to blend into prompts.
 """
 
 from dataclasses import dataclass
@@ -21,6 +23,10 @@ class Geo:
 
 
 def geocode_city(name):
+    """Return `Geo` for a city name using Open-Meteo geocoding.
+
+    Returns None if no results.
+    """
     if not name:
         return None
     data = get_json(
@@ -41,6 +47,7 @@ def geocode_city(name):
 
 
 def fetch_weather(lat, lon, start, end):
+    """Fetch daily weather series (max/min temp, precip prob) for a given date range."""
     data = get_json(
         "https://api.open-meteo.com/v1/forecast",
         params={
@@ -65,6 +72,7 @@ def fetch_weather(lat, lon, start, end):
 
 
 def summarize_weather(city, start, end, w):
+    """Return a compact 'Tool facts' line summarizing average highs/lows and rain% for the range."""
     try:
         highs = round(sum(w["tmax"]) / max(len(w["tmax"]), 1))
         lows = round(sum(w["tmin"]) / max(len(w["tmin"]), 1))
@@ -72,3 +80,5 @@ def summarize_weather(city, start, end, w):
         return f"Tool facts: {city} {start}→{end} | highs {highs}°C, lows {lows}°C, rain {pop}%"
     except Exception:
         return f"Tool facts: {city} {start}→{end} | weather summary unavailable"
+
+

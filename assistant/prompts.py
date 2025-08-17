@@ -1,13 +1,10 @@
 """
-core/prompts.py
+assistant/prompts.py
 
-Prompt templates and helpers.
-- SYSTEM_PROMPT: concise, context-aware travel planner behavior
-- destination_prompt / packing_prompt / attractions_prompt: per-intent prompts
-- context_header / tool_facts_line: compact lines prepended to user prompt
+Prompt templates and helpers. Preserves existing content and behavior.
 """
 
-from core.session import Session
+from assistant.session import Session
 from util.dates import month_to_season
 
 
@@ -30,21 +27,20 @@ SYSTEM_PROMPT = (
 
 
 def tool_facts_line(session: Session):
-    """Return the precomputed 'Tool facts' line if present and relevant."""
+    """Return precomputed weather 'Tool facts' line if present on the session."""
     if getattr(session, "_tool_facts", None):
         return session._tool_facts
     return None
 
 
 def context_header(session: Session):
-    """Build a compact 'Context: ...' header from known slots."""
+    """Build a compact 'Context: ...' line from known slots for private use in system prompt."""
     parts = []
     s = session.slots
     parts.append(f"city={s.city or '?'}")
     if s.start_date and s.end_date:
         parts.append(f"{s.start_date}→{s.end_date}")
     elif s.month:
-        # add rough season for warmth/accuracy
         try:
             season = month_to_season(int(s.month), s.lat)
             parts.append(f"month={s.month}({season})")
@@ -62,6 +58,7 @@ def context_header(session: Session):
 
 
 def destination_prompt(session: Session, user_text: str):
+    """Instruction asking for three destination ideas with one-line reasons, no follow-up question."""
     return (
         "Task: Suggest three destination options that fit the context. Give one-line reasons. "
         "Do not add any follow-up question.\n"
@@ -70,6 +67,7 @@ def destination_prompt(session: Session, user_text: str):
 
 
 def packing_prompt(session: Session, user_text: str):
+    """Instruction for concise packing lists; aligns with private live-weather data if available."""
     return (
         "Task: Provide must-have, nice-to-have, and activity-specific packing lists. Keep lines short. "
         "If private live-weather data exists, align with it. Do not add any follow-up question.\n"
@@ -78,6 +76,7 @@ def packing_prompt(session: Session, user_text: str):
 
 
 def attractions_prompt(session: Session, user_text: str):
+    """Instruction enforcing exactly three non-food attraction bullets; add an indoor option if relevant."""
     return (
         "Task: Immediately output exactly three concise non-food attraction ideas as bullet points (unless the user explicitly asked for food). "
         "Prefer activities that fit likely weather if private live-weather data exists. Include one indoor/rainy option. "
@@ -88,6 +87,7 @@ def attractions_prompt(session: Session, user_text: str):
 
 
 def weather_prompt(session: Session, user_text: str):
+    """Instruction for brief weather summary; rely on private tool data; do not invent numbers without data."""
     return (
         "Task: Briefly summarize likely weather for the given city and dates/month. "
         "Include: temp range (°C), rain chance, and 1‑2 packing tips. Do not suggest destinations. "
@@ -97,6 +97,7 @@ def weather_prompt(session: Session, user_text: str):
 
 
 def support_prompt(session: Session, user_text: str):
+    """Short, warm reply; ask at most one concise clarifying question only when essential."""
     s = session.slots
     known = []
     if s.city:
@@ -126,6 +127,7 @@ def support_prompt(session: Session, user_text: str):
 
 
 def meta_prompt(session: Session, user_text: str):
+    """Summarize only known context values (city, dates/month, last intent); no extra suggestions."""
     s = session.slots
     parts = []
     parts.append(f"city={s.city or '?'}")
@@ -148,3 +150,5 @@ def meta_prompt(session: Session, user_text: str):
         "If a value is unknown, say 'unknown'. Do not add suggestions or extra info.\n"
         f"User: {user_text}"
     )
+
+

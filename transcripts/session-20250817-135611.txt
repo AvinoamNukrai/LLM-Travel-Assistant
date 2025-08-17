@@ -1,0 +1,17 @@
+You: hiii
+Assistant: Hi! I’m Navan — happy to help plan your trip.
+You: how r u
+Assistant: I'm doing great, thanks for asking! So, where are you planning to travel to?
+You: im traveling to rome next week!!
+Assistant: Rome is a fantastic choice! Based on your travel dates, here are three nearby destinations you might consider:
+
+• Tivoli: Explore the stunning Villa d'Este and Hadrian's Villa, both UNESCO World Heritage Sites.
+• Castel Gandolfo: Visit the Pope's summer residence and enjoy beautiful gardens and lake views.
+• Ostia Antica: Discover ancient ruins and a well-preserved Roman city just outside of Rome.
+You: weahter?
+Assistant: Based on live data, you can expect warm and sunny weather in Rome next week, with highs around 28°C (based on live data). Packing tips:
+
+• Pack lightweight clothing for hot days.
+• Don't forget to bring sunscreen and a hat.
+You: niceee
+Assistant: I'm glad you're excited about your Rome trip! What's on your agenda for when you arrive in the Eternal City?

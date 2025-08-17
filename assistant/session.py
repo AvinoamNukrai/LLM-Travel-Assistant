@@ -1,9 +1,11 @@
 """
-core/session.py
+assistant/session.py
 
 Conversation session state and lightweight slot memory.
-- Slots: structured fields the assistant remembers (city, dates, etc.)
-- Session: conversation history plus slots; utility helpers
+
+Classes:
+- Slots: structured memory for the conversation (destination, dates/month, preferences, geo coords, last intent).
+- Session: message history plus slots, with small helpers to append and slice recent history.
 """
 
 from dataclasses import dataclass, field
@@ -36,3 +38,5 @@ class Session:
     def recent_history(self, limit):
         """Return the last N messages from the history."""
         return self.history[-limit:]
+
+
