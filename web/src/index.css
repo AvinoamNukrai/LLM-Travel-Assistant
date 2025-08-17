@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Base polish */
+html, body, #root { height: 100%; }
+body { 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
